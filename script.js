@@ -1,6 +1,6 @@
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -40px'});document.querySelectorAll('.reveal').forEach(e=>io.observe(e));const m=document.querySelector('.menu'),h=document.querySelector('.nav-shell');m.addEventListener('click',()=>{const o=h.classList.toggle('open');m.setAttribute('aria-expanded',o)});document.querySelectorAll('#nav a').forEach(a=>a.onclick=()=>h.classList.remove('open'));window.addEventListener('pointermove',e=>{if(innerWidth>900)document.querySelector('.hero-photo').style.transform=`scale(1.03) translate(${(e.clientX/innerWidth-.5)*9}px,${(e.clientY/innerHeight-.5)*7}px)`},{passive:true});
 
-const heroRefresh=document.createElement('link');heroRefresh.rel='stylesheet';heroRefresh.href='hero-refresh.css';document.head.append(heroRefresh);document.querySelector('.hero h1')?.remove();document.querySelector('.hero .metrics')?.remove();
+document.querySelector('.hero h1')?.remove();document.querySelector('.hero .metrics')?.remove();
 
 const intro=document.querySelector('.hero-intro');
 if(intro){
@@ -34,8 +34,23 @@ if(hero){
     {text:'04 / EDUCATION',href:'#education'},
     {text:'05 / LET\'S CONNECT',href:'#contact'}
   ];
-  index.innerHTML='<div class="sphere-index__globe" aria-hidden="true"><i></i><i></i><i></i></div><nav class="sphere-index__orbit" aria-label="首屏索引"></nav>';
+  index.innerHTML='<div class="sphere-index__globe" aria-hidden="true"><i></i><i></i><i></i></div><div class="asteroid-system" aria-hidden="true"><div class="asteroid-belt asteroid-belt--outer"></div><div class="asteroid-belt asteroid-belt--inner"></div></div><nav class="sphere-index__orbit" aria-label="首屏索引"></nav>';
   hero.append(index);
+  const asteroidBelts=index.querySelectorAll('.asteroid-belt');
+  asteroidBelts.forEach((belt,beltIndex)=>{
+    const count=beltIndex===0?18:11;
+    for(let i=0;i<count;i++){
+      const asteroid=document.createElement('i');
+      const angle=(360/count)*i+(beltIndex?13:0);
+      const size=2+((i*7+3)%5);
+      asteroid.style.setProperty('--angle',`${angle}deg`);
+      asteroid.style.setProperty('--reverse-angle',`${-angle}deg`);
+      asteroid.style.setProperty('--size',`${size}px`);
+      asteroid.style.setProperty('--offset',`${((i*11)%13)-6}px`);
+      asteroid.style.setProperty('--alpha',String(.24+((i*17)%55)/100));
+      belt.append(asteroid);
+    }
+  });
   const orbit=index.querySelector('.sphere-index__orbit');
   const links=sections.map((section,i)=>{
     const link=document.createElement('a');
