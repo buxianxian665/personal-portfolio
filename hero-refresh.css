@@ -219,10 +219,10 @@
 
 .profile-page {
   position: relative;
-  width: min(1180px, calc(100% - 40px));
+  width: min(1080px, calc(100% - 56px));
   min-height: 100svh;
-  padding-top: 120px;
-  padding-bottom: 80px;
+  padding-top: 108px;
+  padding-bottom: 0;
   color: #111;
   background: #fff;
   box-shadow: 0 0 0 100vmax #fff;
@@ -231,16 +231,16 @@
 
 .profile-layout {
   display: grid;
-  grid-template-columns: minmax(360px, .95fr) minmax(420px, 1.05fr);
+  grid-template-columns: minmax(340px, 44%) minmax(420px, 56%);
   align-items: center;
-  gap: clamp(48px, 7vw, 104px);
-  min-height: calc(100svh - 200px);
+  gap: clamp(52px, 6vw, 84px);
+  min-height: calc(100svh - 108px);
 }
 
 .profile-portrait {
   position: relative;
   align-self: end;
-  height: min(76vh, 800px);
+  height: min(72vh, 720px);
   margin: 0;
   overflow: visible;
   background: transparent;
@@ -255,31 +255,24 @@
   height: 100%;
   object-fit: contain;
   object-position: center bottom;
-  filter: drop-shadow(0 24px 34px rgba(21, 38, 60, .065));
-  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 92%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0, #000 92%, transparent 100%);
+  filter: drop-shadow(0 18px 28px rgba(21, 38, 60, .045));
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 94%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0, #000 94%, transparent 100%);
 }
 
 .profile-story {
-  max-width: 580px;
-}
-
-.profile-index {
-  margin: 0 0 28px;
-  color: #1678ff;
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .22em;
+  align-self: center;
+  max-width: 520px;
+  padding: 10px 0 44px;
 }
 
 .profile-story h2 {
-  margin: 0 0 30px;
+  margin: 0 0 24px;
   font-family: var(--serif);
-  font-size: clamp(38px, 4vw, 60px);
+  font-size: clamp(32px, 3.25vw, 46px);
   font-weight: 400;
-  line-height: 1.14;
-  letter-spacing: -.025em;
+  line-height: 1.28;
+  letter-spacing: -.018em;
 }
 
 .profile-story h2 em {
@@ -291,35 +284,35 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 30px;
+  margin-bottom: 26px;
 }
 
 .profile-tags span {
-  padding: 8px 11px;
-  border: 1px solid rgba(0,0,0,.2);
+  padding: 7px 10px;
+  border: 1px solid rgba(0,0,0,.22);
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
   font-size: 9px;
   letter-spacing: .09em;
 }
 
 .profile-story > p:not(.profile-index) {
-  margin: 0 0 17px;
-  color: #555d64;
-  font-size: 14px;
-  line-height: 1.9;
+  margin: 0 0 15px;
+  color: #666b70;
+  font-size: 13px;
+  line-height: 1.85;
 }
 
 .profile-story .profile-lead {
-  color: #171b1e;
-  font-size: 16px;
-  font-weight: 600;
+  color: #303438;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .profile-link {
   display: inline-flex;
   align-items: center;
   gap: 30px;
-  margin-top: 18px;
+  margin-top: 14px;
   padding-bottom: 8px;
   color: #111;
   border-bottom: 1px solid #111;
@@ -331,8 +324,8 @@
 
 @media (max-width: 800px) {
   .profile-page { padding-top: 100px; }
-  .profile-layout { grid-template-columns: minmax(250px, .82fr) minmax(330px, 1.18fr); gap: 32px; }
-  .profile-portrait { width: 100%; height: 64vh; min-height: 500px; justify-self: center; }
+  .profile-layout { grid-template-columns: minmax(240px, 42%) minmax(320px, 58%); gap: 28px; }
+  .profile-portrait { width: 100%; height: 62vh; min-height: 480px; justify-self: center; }
   .profile-story { max-width: 100%; padding-bottom: 40px; }
 }
 
