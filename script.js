@@ -22,7 +22,6 @@ if(intro){
 }
 
 const hero=document.querySelector('.hero');
-document.querySelector('.contact')?.setAttribute('id','contact');
 if(hero){
   const index=document.createElement('aside');
   index.className='sphere-index';
