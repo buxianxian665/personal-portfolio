@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/answer-diagnosis.json",
+  "title": "AnswerDiagnosis",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["evidence_status", "strongest_evidence", "main_gap", "credibility", "follow_up", "scores", "review"],
+  "properties": {
+    "evidence_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["context", "personal_role", "action", "decision_reason", "data_or_observation", "outcome", "validation", "limitations"],
+      "properties": {
+        "context": { "type": "boolean" },
+        "personal_role": { "type": "boolean" },
+        "action": { "type": "boolean" },
+        "decision_reason": { "type": "boolean" },
+        "data_or_observation": { "type": "boolean" },
+        "outcome": { "type": "boolean" },
+        "validation": { "type": "boolean" },
+        "limitations": { "type": "boolean" }
+      }
+    },
+    "strongest_evidence": { "type": "array", "items": { "type": "string" } },
+    "main_gap": { "type": "string" },
+    "credibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["risk", "reason"],
+      "properties": {
+        "risk": { "enum": ["low", "medium", "high"] },
+        "reason": { "type": "string" }
+      }
+    },
+    "follow_up": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["needed", "question", "stop_reason"],
+      "properties": {
+        "needed": { "type": "boolean" },
+        "question": { "type": ["string", "null"] },
+        "stop_reason": { "type": ["string", "null"] }
+      }
+    },
+    "scores": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["dimension", "score", "reason", "evidence_quotes", "missing_evidence"],
+        "properties": {
+          "dimension": { "enum": ["岗位匹配度", "经历证据强度", "产品思维", "数据意识", "AI产品理解", "表达清晰度"] },
+          "score": { "type": "number", "minimum": 1, "maximum": 5, "multipleOf": 0.5 },
+          "reason": { "type": "string" },
+          "evidence_quotes": { "type": "array", "items": { "type": "string" } },
+          "missing_evidence": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["diagnosis", "actions", "optional_structure", "reference_answer", "reference_answer_notice"],
+      "properties": {
+        "diagnosis": { "type": "string" },
+        "actions": { "type": "array", "minItems": 1, "maxItems": 3, "items": { "type": "string" } },
+        "optional_structure": { "type": "array", "items": { "type": "string" } },
+        "reference_answer": { "type": ["string", "null"] },
+        "reference_answer_notice": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/interview-report.json",
+  "title": "InterviewReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["overall_score", "quick_report", "deep_report", "disclaimer"],
+  "properties": {
+    "overall_score": { "type": "number", "minimum": 1, "maximum": 5 },
+    "quick_report": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "dimension_scores", "strongest_evidence", "main_gaps", "next_action"],
+      "properties": {
+        "summary": { "type": "string" },
+        "dimension_scores": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["dimension", "score", "reason"],
+            "properties": {
+              "dimension": { "enum": ["岗位匹配度", "经历证据强度", "产品思维", "数据意识", "AI产品理解", "表达清晰度"] },
+              "score": { "type": "number", "minimum": 1, "maximum": 5 },
+              "reason": { "type": "string" }
+            }
+          }
+        },
+        "strongest_evidence": { "type": "array", "maxItems": 3, "items": { "type": "string" } },
+        "main_gaps": { "type": "array", "maxItems": 3, "items": { "type": "string" } },
+        "next_action": { "type": "string" }
+      }
+    },
+    "deep_report": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["core_diagnosis", "question_reviews", "evidence_audit", "training_plan"],
+      "properties": {
+        "core_diagnosis": { "type": "string" },
+        "question_reviews": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["question_id", "score", "main_judgment", "evidence_quotes", "gaps", "next_actions"],
+            "properties": {
+              "question_id": { "type": "string" },
+              "score": { "type": "number", "minimum": 1, "maximum": 5 },
+              "main_judgment": { "type": "string" },
+              "evidence_quotes": { "type": "array", "items": { "type": "string" } },
+              "gaps": { "type": "array", "items": { "type": "string" } },
+              "next_actions": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "evidence_audit": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["confirmed", "inferences", "unknowns"],
+          "properties": {
+            "confirmed": { "type": "array", "items": { "type": "string" } },
+            "inferences": { "type": "array", "items": { "type": "string" } },
+            "unknowns": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "training_plan": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["priority", "task", "deliverable", "completion_criteria"],
+            "properties": {
+              "priority": { "type": "integer", "minimum": 1 },
+              "task": { "type": "string" },
+              "deliverable": { "type": "string" },
+              "completion_criteria": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "disclaimer": { "const": "本报告用于面试训练，不代表真实招聘结论。" }
+  }
+}

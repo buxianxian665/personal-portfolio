@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/interview-analysis.json",
+  "title": "InterviewAnalysis",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["target_role", "resume_evidence", "competencies", "matches", "claims_requiring_confirmation"],
+  "properties": {
+    "target_role": { "type": "string", "minLength": 1 },
+    "resume_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["evidence_id", "experience", "claim", "evidence_type", "certainty", "source_quote"],
+        "properties": {
+          "evidence_id": { "type": "string", "pattern": "^ev_[0-9]{2,}$" },
+          "experience": { "type": "string" },
+          "claim": { "type": "string" },
+          "evidence_type": { "enum": ["context", "action", "metric", "outcome", "skill"] },
+          "certainty": { "enum": ["confirmed", "needs_confirmation", "unknown"] },
+          "source_quote": { "type": "string" }
+        }
+      }
+    },
+    "competencies": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["competency_id", "name", "importance", "jd_evidence", "expected_evidence"],
+        "properties": {
+          "competency_id": { "type": "string", "pattern": "^cp_[0-9]{2,}$" },
+          "name": { "type": "string" },
+          "importance": { "type": "integer", "minimum": 1, "maximum": 5 },
+          "jd_evidence": { "type": "string" },
+          "expected_evidence": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "matches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["competency_id", "match_level", "evidence_ids", "reason", "gaps", "interview_risk"],
+        "properties": {
+          "competency_id": { "type": "string" },
+          "match_level": { "enum": ["strong", "medium", "weak", "missing"] },
+          "evidence_ids": { "type": "array", "items": { "type": "string" } },
+          "reason": { "type": "string" },
+          "gaps": { "type": "array", "items": { "type": "string" } },
+          "interview_risk": { "enum": ["low", "medium", "high"] }
+        }
+      }
+    },
+    "claims_requiring_confirmation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["claim", "reason", "question_to_user"],
+        "properties": {
+          "claim": { "type": "string" },
+          "reason": { "type": "string" },
+          "question_to_user": { "type": "string" }
+        }
+      }
+    }
+  }
+}

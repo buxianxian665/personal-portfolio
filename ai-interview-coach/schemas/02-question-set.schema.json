@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/question-set.json",
+  "title": "QuestionSet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["questions"],
+  "properties": {
+    "questions": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["question_id", "question_type", "question", "competency_ids", "source_evidence_ids", "reason", "expected_evidence", "max_follow_ups"],
+        "properties": {
+          "question_id": { "type": "string", "pattern": "^q_[0-9]{2}$" },
+          "question_type": { "enum": ["resume_verification", "jd_competency", "scenario_transfer"] },
+          "question": { "type": "string", "minLength": 10 },
+          "competency_ids": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+          "source_evidence_ids": { "type": "array", "items": { "type": "string" } },
+          "reason": { "type": "string" },
+          "expected_evidence": { "type": "array", "minItems": 2, "items": { "type": "string" } },
+          "max_follow_ups": { "const": 2 }
+        }
+      }
+    }
+  }
+}
