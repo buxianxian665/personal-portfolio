@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-14T00:00:00+08:00",
+  "title": "Design System: AI 面试陪练",
+  "extensions": {
+    "motion": [
+      { "name": "state-transition", "value": ".18s ease", "purpose": "Background, field border and toast opacity state changes only." },
+      { "name": "reduced-motion", "value": ".01ms", "purpose": "Transition and animation duration under prefers-reduced-motion: reduce." }
+    ],
+    "breakpoints": [
+      { "name": "stack-inputs", "value": "1200px" },
+      { "name": "top-navigation", "value": "900px" },
+      { "name": "mobile-stack", "value": "680px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button", "kind": "button", "refersTo": "button-primary",
+      "description": "Primary workflow action; neutral disabled state.",
+      "html": "<button class=\"ds-primary\">分析匹配关系 <span>→</span></button>",
+      "css": ".ds-primary{display:inline-flex;align-items:center;justify-content:center;gap:24px;min-height:44px;border:0;border-radius:8px;padding:12px 18px;font:600 14px/1.6 var(--sans, sans-serif);background:var(--cyan,#21664d);color:#fff;cursor:pointer;transition:background .18s}.ds-primary:hover:not(:disabled){background:var(--cyan-deep,#194d3b)}.ds-primary:focus-visible{outline:2px solid var(--cyan,#21664d);outline-offset:4px}.ds-primary:disabled{background:#dbe4df;color:#53695c;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-primary{transition-duration:.01ms}}"
+    },
+    {
+      "name": "Text Button", "kind": "button", "refersTo": "text-button",
+      "description": "Quiet optional action next to the form.",
+      "html": "<button class=\"ds-text\">填入虚构示例，先试一下</button>",
+      "css": ".ds-text{display:inline-flex;align-items:center;justify-content:center;min-height:44px;border:0;border-radius:8px;padding:12px 6px;font:500 14px/1.6 var(--sans,sans-serif);color:#385945;background:transparent;cursor:pointer;transition:background .18s}.ds-text:hover:not(:disabled){background:#e7efe9}.ds-text:focus-visible{outline:2px solid var(--cyan,#21664d);outline-offset:4px}.ds-text:disabled{cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-text{transition-duration:.01ms}}"
+    },
+    {
+      "name": "Text Input", "kind": "input", "refersTo": "input",
+      "description": "Labeled multi-line resume or answer entry.",
+      "html": "<label class=\"ds-label\" for=\"ds-resume\">简历文本</label><textarea class=\"ds-input\" id=\"ds-resume\" rows=\"5\" placeholder=\"粘贴教育、实习和项目经历……\"></textarea>",
+      "css": ".ds-label{display:block;margin-bottom:9px;font:13px/1.6 var(--sans,sans-serif);color:#40554a}.ds-input{width:100%;resize:vertical;padding:14px;border:1px solid #cedbd3;border-radius:8px;background:#fcfdfc;color:var(--ink,#202f2a);caret-color:var(--cyan,#21664d);font:15px/1.8 var(--sans,sans-serif);transition:border-color .18s}.ds-input::placeholder{color:#68786f}.ds-input:focus{border-color:var(--cyan,#21664d)}.ds-input:focus-visible{outline:2px solid var(--cyan,#21664d);outline-offset:2px}@media(prefers-reduced-motion:reduce){.ds-input{transition-duration:.01ms}}"
+    },
+    {
+      "name": "Step Navigation", "kind": "nav", "refersTo": "nav",
+      "description": "Current task and disabled future step, not a decorative progress badge.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"面试流程\"><button class=\"ds-step ds-current\" aria-current=\"step\"><span>01</span><strong>准备资料</strong></button><button class=\"ds-step\" disabled><span>02</span><strong>匹配分析</strong></button></nav>",
+      "css": ".ds-nav{display:grid;gap:8px;background:var(--rail,#edf2ef);padding:12px}.ds-step{display:flex;gap:12px;align-items:center;min-height:44px;width:100%;text-align:left;border:0;border-radius:8px;padding:14px 12px;color:var(--muted,#5f7168);background:transparent;font:14px/1.6 var(--sans,sans-serif);cursor:pointer}.ds-step span{font-size:12px;font-variant-numeric:tabular-nums}.ds-step strong{font-weight:600}.ds-current{color:#174f3a;background:#d9e9df}.ds-step:not(:disabled):hover{background:#e0eae4}.ds-step:focus-visible{outline:2px solid var(--cyan,#21664d);outline-offset:4px}.ds-step:disabled{color:#65756c;cursor:not-allowed}"
+    },
+    {
+      "name": "Evidence Chip", "kind": "chip", "refersTo": "chip",
+      "description": "Non-interactive evidence label; no fabricated hover or focus behavior.",
+      "html": "<span class=\"ds-chip\">项目证据</span>",
+      "css": ".ds-chip{display:inline-block;font:12px/1.6 var(--sans,sans-serif);color:#305744;background:#e7efe9;padding:5px 9px;border-radius:4px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "清爽的浅色工作台",
+    "overview": "白色内容、浅灰导航和深石墨正文构成安静、可扫描的任务环境。森林绿提示当前步骤与主要动作；控件克制明确，视觉层级来自文字、间距和分隔，不来自装饰。\n\n本文件只约束 `ai-interview.html`、`ai-interview.css` 及面试项目的相关 UI；不定义作品集的视觉系统。基于已确认方向与当前 CSS 扫描记录，不宣称自动引擎验证。",
+    "keyCharacteristics": ["浅色、平面、以内容为中心。", "森林绿标识动作与当前状态。", "紧凑辅助信息，宽松输入与阅读空间。"],
+    "rules": [{ "name": "The State, Not Decoration Rule", "body": "强调色服务动作或状态，不用于无意义装饰。", "section": "colors" }],
+    "dos": ["Do 保持浅色、平面、以内容为中心的工作台。", "Do 让森林绿承担主动作、焦点和当前状态。", "Do 保留清晰键盘焦点、至少 44px 的操作目标与手机隐私说明。", "Do 用文字解释错误、未知与评分依据。"],
+    "donts": ["Don't 将本系统应用到作品集其他页面。", "Don't 加入霓虹、玻璃、渐变、阴影或装饰动画。", "Don't 将旧命名 cyan 或 mono 解读为青色品牌或等宽字体。", "Don't 把“已完成练习”等同于能力优秀，或把历史缺陷写成系统规则。"]
+  }
+}

@@ -71,7 +71,7 @@ checkApi();
 
 resumeFile?.addEventListener('change', () => {
   const file = resumeFile.files?.[0];
-  fileStatus.textContent = file ? `已选择：${file.name}（暂不支持 PDF 解析，请同时粘贴文本）` : '或在下方粘贴简历文本';
+  fileStatus.textContent = file ? `已选择：${file.name}。请复制文字到上方，本文件不会提交给模型。` : '仍需粘贴简历文本';
 });
 
 $('#loadSample')?.addEventListener('click', () => {
@@ -83,6 +83,7 @@ $('#loadSample')?.addEventListener('click', () => {
 analyzeButton?.addEventListener('click', async () => {
   if (!resumeText.value.trim() || !jdText.value.trim()) {
     formError.textContent = '请填写简历文本和岗位 JD；也可以先载入测试样本。';
+    (!resumeText.value.trim() ? resumeText : jdText).focus();
     return;
   }
   formError.textContent = '';
@@ -136,14 +137,19 @@ function normalizeQuestion(item, analysis) {
 
 function goTo(step) {
   state.step = step;
+  const names = { setup: '准备资料', analysis: '匹配分析', interview: '模拟面试', report: '能力报告' };
+  $('#workspaceLocation').textContent = `面试工作台 / ${names[step]}`;
   $$('.view').forEach(view => view.classList.toggle('is-visible', view.id === `${step}View`));
   $$('.step-item').forEach(item => {
     const allowed = ['setup', 'analysis', 'interview', 'report'].indexOf(item.dataset.step) <= ['setup', 'analysis', 'interview', 'report'].indexOf(step);
     item.disabled = !allowed;
     item.classList.toggle('is-active', item.dataset.step === step);
-    item.toggleAttribute('aria-current', item.dataset.step === step);
+    if (item.dataset.step === step) item.setAttribute('aria-current', 'step');
+    else item.removeAttribute('aria-current');
   });
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  const heading = $(`#${step}View h1`);
+  if (heading) { heading.tabIndex = -1; heading.focus({ preventScroll: true }); }
+  window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
 }
 
 $$('.step-item').forEach(item => item.addEventListener('click', () => !item.disabled && goTo(item.dataset.step)));
@@ -302,8 +308,6 @@ function showQuestionResult() {
   const q = questions[state.questionIndex];
   const diagnosis = diagnoses[state.questionIndex];
   const coach = diagnosis.review;
-  const lastAnswer = state.answers[state.answers.length - 1]?.text || '';
-  const explicitBoundary = /(不知道|未参与|无法确认|没有上线|没有采用|不确定)/.test(lastAnswer);
   const score = diagnosis?.scores?.length ? diagnosis.scores.reduce((sum, item) => sum + item.score, 0) / diagnosis.scores.length : q.score;
   q.score = score;
   const feedback = diagnosis ? [
@@ -317,7 +321,7 @@ function showQuestionResult() {
     <div class="question-result">
       <span class="result-kicker">QUESTION ${String(state.questionIndex + 1).padStart(2, '0')} / COMPLETE</span>
       <div class="score-orbit"><strong>${score.toFixed(1)}</strong><small>/ 5.0</small></div>
-      <h1>${explicitBoundary ? '边界说清楚，反而让经历更可信。' : '证据链已经比初始回答完整。'}</h1>
+      <h1>本题诊断已完成</h1>
       <div class="feedback-list">${feedback.map((item, index) => `<div><span>0${index + 1}</span><p>${escapeHtml(item)}</p></div>`).join('')}</div>
       <section class="coaching-panel">
         <div class="coaching-title"><span>REVIEW</span><strong>本题复盘</strong></div>
@@ -436,13 +440,33 @@ function renderReport(report) {
       const active = item === button;
       item.classList.toggle('is-active', active);
       item.setAttribute('aria-selected', String(active));
+      item.tabIndex = active ? 0 : -1;
     });
     $('#quickReport').classList.toggle('is-visible', !deepMode);
     $('#deepReport').classList.toggle('is-visible', deepMode);
   }));
+  $$('[data-report-mode]').forEach((button, index, tabs) => {
+    button.id = `${button.dataset.reportMode}Tab`;
+    button.tabIndex = index === 0 ? 0 : -1;
+    const panel = $(`#${button.dataset.reportMode}Report`);
+    button.setAttribute('aria-controls', panel.id);
+    panel.setAttribute('aria-labelledby', button.id);
+    button.addEventListener('keydown', event => {
+      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+      tabs[next].click();
+      tabs[next].focus();
+    });
+  });
   $('#copySummary').addEventListener('click', async () => {
     const summary = `AI面试陪练报告｜综合 ${overall.toFixed(1)}/5\n${quick.summary}\n优势：${quick.strongest_evidence.join('；')}\n缺口：${quick.main_gaps.join('；')}\n下一步：${quick.next_action}`;
-    try { await navigator.clipboard.writeText(summary); } catch { /* 浏览器可能限制剪贴板 */ }
+    try {
+      await navigator.clipboard.writeText(summary);
+      $('#toast').textContent = '报告摘要已复制';
+    } catch {
+      $('#toast').textContent = '复制失败，请检查浏览器剪贴板权限后重试';
+    }
     $('#toast').classList.add('show');
     window.setTimeout(() => $('#toast')?.classList.remove('show'), 1800);
   });
