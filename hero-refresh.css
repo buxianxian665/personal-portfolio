@@ -382,6 +382,15 @@
 .timeline-card__front { background: #eef4fb; }
 .timeline-card__front img { width: 100%; height: 100%; object-fit: cover; transition: opacity .25s, transform .7s ease; }
 .timeline-card:hover .timeline-card__front img { transform: scale(1.015); }
+.timeline-card.is-ai-project .timeline-card__front { background: linear-gradient(145deg,#071c38 0%,#0a3365 58%,#116fd2 100%); }
+.timeline-card.is-ai-project .timeline-card__front::before { content:""; position:absolute; inset:9% 8% 24%; border:1px solid rgba(140,200,255,.4); border-radius:12px; background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.025)); box-shadow:0 26px 70px rgba(0,0,0,.24); }
+.timeline-card.is-ai-project .timeline-card__front::after { content:"AI INTERVIEW\A EVIDENCE · FOLLOW-UP · REPORT"; white-space:pre; position:absolute; top:15%; left:13%; color:#f5f9ff; font:600 13px/2 ui-monospace,SFMono-Regular,Consolas,monospace; letter-spacing:.08em; }
+.timeline-card.is-ai-project .timeline-card__front img { display:none; }
+.timeline-card.is-ai-project .timeline-card__front .timeline-photo-label { background:linear-gradient(transparent,rgba(3,17,36,.95)); }
+.timeline-card.is-ai-project .timeline-card__back { justify-content:flex-start; padding-top:58px; }
+.timeline-card.is-ai-project .timeline-back-copy { font-size:9.5px; line-height:1.52; }
+.timeline-card.is-ai-project .timeline-back-tags { margin-top:10px; }
+.timeline-card.is-ai-project .timeline-card__back small { display:none; }
 .timeline-photo-label { position: absolute; right: 0; bottom: 0; left: 0; display: block; padding: 25px 24px; color: #fff; background: linear-gradient(transparent,rgba(4,15,29,.82)); }
 .timeline-photo-label span { font: 700 9px ui-monospace,SFMono-Regular,Consolas,monospace; letter-spacing: .2em; }
 .timeline-photo-label strong { display:block; margin-top:6px; font: 400 22px var(--serif); }
